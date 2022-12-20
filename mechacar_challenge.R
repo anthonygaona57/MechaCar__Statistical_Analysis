@@ -1,0 +1,15 @@
+install.packages("tidyverse")
+library(tidyverse)
+library(dplyr)
+mech<-read.csv("MechaCar_mpg.csv")
+mechareg<-lm(mpg~vehicle_length+vehicle_weight+spoiler_angle+ground_clearance+AWD,data=mech)
+mechasummary<-summary(mechareg)
+
+sus<-read.csv("Suspension_Coil.csv")
+totalsummary<-sus %>%summarize(Mean=mean(PSI), Median=median(PSI), Variance=var(PSI), SD=sd(PSI))
+lotsummary<-sus %>%group_by(Manufacturing_Lot) %>%summarize(Mean=mean(PSI), Median=median(PSI), Variance=var(PSI), SD=sd(PSI),.groups = "keep")
+
+t.test(sus$PSI,mu=1500)
+t.test(subset(sus,Manufacturing_Lot=="Lot1")$PSI,mu=1500)
+t.test(subset(sus,Manufacturing_Lot=="Lot2")$PSI,mu=1500)
+t.test(subset(sus,Manufacturing_Lot=="Lot3")$PSI,mu=1500)
